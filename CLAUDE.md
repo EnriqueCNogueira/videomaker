@@ -11,11 +11,11 @@ Agente de IA para criação automatizada de vídeos verticais (1:00–1:30) para
 ## Stack e Dependências
 
 - **Linguagem:** Python 3.11+
-- **Agente de roteiro:** Google Gemini API (modelo gemini-2.0-flash ou superior)
+- **Agente de roteiro:** Google Gemini API (modelo gemini-2.5-flash)
 - **Agente avaliador:** Google Gemini API
-- **Text-to-Speech:** Google Cloud Text-to-Speech API
+- **Text-to-Speech:** Google Cloud Text-to-Speech API (en-US Neural2)
 - **Gerenciamento de secrets:** Arquivo local em `skills/secrets/`
-- **Pacotes principais:** google-generativeai, google-cloud-texttospeech, python-dotenv
+- **Pacotes principais:** google-genai, google-cloud-texttospeech, python-dotenv
 
 ---
 
@@ -85,10 +85,10 @@ O `main.py` orquestra o seguinte pipeline sequencial:
 
 **Arquivo principal:** `skills/script_generator/generator.py`
 
-- **API:** Google Gemini (google-generativeai)
+- **API:** Google Gemini (google-genai)
 - **Temperatura:** 0.9 (alta criatividade)
 - **Top-p:** 0.95
-- **Modelo:** gemini-2.0-flash (ou o mais recente disponível)
+- **Modelo:** gemini-2.5-flash
 - **Contexto:** Carregar conteúdo integral de `skills/script_generator/context/references.txt` como parte do system prompt
 - **Comportamento:**
   - Recebe um **tema/briefing** como input do usuário
@@ -108,7 +108,7 @@ O `main.py` orquestra o seguinte pipeline sequencial:
 
 - **API:** Google Gemini
 - **Temperatura:** 0.3 (mais analítico e preciso)
-- **Modelo:** gemini-2.0-flash
+- **Modelo:** gemini-2.5-flash
 - **Comportamento:**
   - Recebe os 3 roteiros gerados
   - Avalia cada um com base nos critérios: poder do gancho, ritmo e fluidez, clareza da mensagem, potencial viral, CTA eficaz, adequação ao formato (1–1:30 min)
