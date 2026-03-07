@@ -1,0 +1,9 @@
+{
+  "ssml_content": "<speak><prosody rate=\"fast\">We have access to the entirety of human cinematic history, yet we spend more time <emphasis level=\"strong\">choosing</emphasis> a movie than actually watching one.</prosody> You scroll through endless rows of colorful thumbnails, a digital purgatory of infinite choices. You add ten things to your watchlist, knowing deep down they will rot there for eternity. <break time=\"1s\"/> You are not looking for entertainment anymore. You are searching for meaning in a sea of algorithms. <break time=\"2s\"/> <prosody rate=\"slow\">And then, you just rewatch the exact same sitcom you've seen five times. Why do we fear the new? Tell me your comfort show below.</prosody></speak>",
+  "voice_configurations": {
+    "language": "en-US",
+    "voice_type": "en-US-Journey-D",
+    "speed": 1.0,
+    "pitch": -1.0
+  }
+}

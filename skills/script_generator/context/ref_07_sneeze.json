@@ -1,0 +1,9 @@
+{
+  "ssml_content": "<speak><prosody rate=\"fast\">There is no physical sensation more universally disappointing than a sneeze that decides to simply <emphasis level=\"strong\">give up</emphasis> right at the finish line.</prosody> Your breath hitches. Your eyes close. The dramatic facial contortion begins. The crescendo is building, you are ready to violently expel air like a human dragon. <break time=\"1s\"/> And then... nothing. It vanishes into the abyss. You are left there, mouth slightly open, looking completely ridiculous and profoundly unfulfilled. <break time=\"2s\"/> <prosody rate=\"slow\">Where do the lost sneezes go? Do they just wander the corridors of our sinuses forever? Commiserate with me in the comments.</prosody></speak>",
+  "voice_configurations": {
+    "language": "en-US",
+    "voice_type": "en-US-Journey-D",
+    "speed": 1.0,
+    "pitch": -1.0
+  }
+}

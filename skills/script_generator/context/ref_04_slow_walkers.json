@@ -1,0 +1,9 @@
+{
+  "ssml_content": "<speak><prosody rate=\"fast\">There is no rage quite like being trapped behind a group of people walking shoulder-to-shoulder at the speed of a dying <emphasis level=\"strong\">snail</emphasis>.</prosody> The sidewalk is not a red carpet, it is a transit corridor. You try to pass, but they drift left. You pivot right, they drift right, executing a flawless, unconscious blockade. <break time=\"1s\"/> It is a masterclass in spatial unawareness. You are suddenly forced to re-evaluate your entire life's pace while staring at the back of their heads. <break time=\"2s\"/> <prosody rate=\"slow\">Have you ever had to physically step into traffic just to pass a slow walker? Vent your sidewalk rage in the comments.</prosody></speak>",
+  "voice_configurations": {
+    "language": "en-US",
+    "voice_type": "en-US-Journey-D",
+    "speed": 1.0,
+    "pitch": -1.0
+  }
+}

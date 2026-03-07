@@ -1,0 +1,9 @@
+{
+  "ssml_content": "<speak><prosody rate=\"fast\">Washing clothes is science, drying them is an art, but folding them is a relentless, unending <emphasis level=\"strong\">punishment</emphasis> from the universe.</prosody> The clean clothes sit in a pile on that one specific chair in your bedroom. The laundry chair. Days pass. The pile watches you sleep. It judges your procrastination. <break time=\"1s\"/> You start living out of the basket, digging through the fabric mountain every morning like an urban archaeologist. <break time=\"2s\"/> <prosody rate=\"slow\">Are we defined by the clothes we wear, or by the clothes we refuse to put in the closet? Confess your laundry chair sins below.</prosody></speak>",
+  "voice_configurations": {
+    "language": "en-US",
+    "voice_type": "en-US-Journey-D",
+    "speed": 1.0,
+    "pitch": -1.0
+  }
+}

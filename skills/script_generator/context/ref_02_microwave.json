@@ -1,0 +1,9 @@
+{
+  "ssml_content": "<speak><prosody rate=\"fast\">Did you know Einstein was entirely wrong about relativity? Time doesn't bend near a supermassive black hole; it bends right in front of your kitchen <emphasis level=\"strong\">microwave</emphasis>.</prosody> One minute in normal human time is just sixty fleeting seconds. But one minute on a glowing microwave display? <break time=\"1s\"/> That is an absolute geological era. You can rethink every single life choice, contemplate the universe, and age a decade while just watching that leftover cheese slowly melt. <break time=\"2s\"/> <prosody rate=\"slow\">What is the absolute longest microwave minute you have ever experienced? Tell me your pain in the comments.</prosody></speak>",
+  "voice_configurations": {
+    "language": "en-US",
+    "voice_type": "en-US-Journey-D",
+    "speed": 1.0,
+    "pitch": -1.0
+  }
+}
