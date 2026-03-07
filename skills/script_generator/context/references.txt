@@ -1,2 +1,69 @@
-# references.txt — Roteiros de referência para contexto do agente
-# Adicione aqui exemplos de roteiros no estilo e tom desejados
+{
+"ssml_content": "<speak><prosody rate="fast">Why does love always leave us? Or more specifically, why does the washing machine eat exactly <emphasis level="strong">ONE</emphasis> sock every single time?</prosody> We put them in as a pair. A beautifully bonded couple facing the harsh, soapy suds of adversity together. We trust the machine. <break time="1s"/> And yet, only one returns. The survivor. The lonely widow of the heavy-duty laundry cycle, left to aimlessly wander the drawer forever. <break time="2s"/> <prosody rate="slow">Are we all just unpaired socks waiting for a match in the great drawer of life? Drop your saddest sock tragedy in the comments below.</prosody></speak>",
+"voice_configurations": {
+"language": "en-US",
+"voice_type": "en-US-Journey-D",
+"speed": 1.0,
+"pitch": -1.0
+}
+}
+
+{
+"ssml_content": "<speak><prosody rate="fast">Did you know Einstein was entirely wrong about relativity? Time doesn't bend near a supermassive black hole; it bends right in front of your kitchen <emphasis level="strong">microwave</emphasis>.</prosody> One minute in normal human time is just sixty fleeting seconds. But one minute on a glowing microwave display? <break time="1s"/> That is an absolute geological era. You can rethink every single life choice, contemplate the universe, and age a decade while just watching that leftover cheese slowly melt. <break time="2s"/> <prosody rate="slow">What is the absolute longest microwave minute you have ever experienced? Tell me your pain in the comments.</prosody></speak>",
+"voice_configurations": {
+"language": "en-US",
+"voice_type": "en-US-Journey-D",
+"speed": 1.0,
+"pitch": -1.0
+}
+}
+
+{
+"ssml_content": "<speak><prosody rate="fast">We have access to the entirety of human cinematic history, yet we spend more time <emphasis level="strong">choosing</emphasis> a movie than actually watching one.</prosody> You scroll through endless rows of colorful thumbnails, a digital purgatory of infinite choices. You add ten things to your watchlist, knowing deep down they will rot there for eternity. <break time="1s"/> You are not looking for entertainment anymore. You are searching for meaning in a sea of algorithms. <break time="2s"/> <prosody rate="slow">And then, you just rewatch the exact same sitcom you've seen five times. Why do we fear the new? Tell me your comfort show below.</prosody></speak>",
+"voice_configurations": {
+"language": "en-US",
+"voice_type": "en-US-Journey-D",
+"speed": 1.0,
+"pitch": -1.0
+}
+}
+
+{
+"ssml_content": "<speak><prosody rate="fast">There is no rage quite like being trapped behind a group of people walking shoulder-to-shoulder at the speed of a dying <emphasis level="strong">snail</emphasis>.</prosody> The sidewalk is not a red carpet, it is a transit corridor. You try to pass, but they drift left. You pivot right, they drift right, executing a flawless, unconscious blockade. <break time="1s"/> It is a masterclass in spatial unawareness. You are suddenly forced to re-evaluate your entire life's pace while staring at the back of their heads. <break time="2s"/> <prosody rate="slow">Have you ever had to physically step into traffic just to pass a slow walker? Vent your sidewalk rage in the comments.</prosody></speak>",
+"voice_configurations": {
+"language": "en-US",
+"voice_type": "en-US-Journey-D",
+"speed": 1.0,
+"pitch": -1.0
+}
+}
+
+{
+"ssml_content": "<speak><prosody rate="fast">Washing clothes is science, drying them is an art, but folding them is a relentless, unending <emphasis level="strong">punishment</emphasis> from the universe.</prosody> The clean clothes sit in a pile on that one specific chair in your bedroom. The laundry chair. Days pass. The pile watches you sleep. It judges your procrastination. <break time="1s"/> You start living out of the basket, digging through the fabric mountain every morning like an urban archaeologist. <break time="2s"/> <prosody rate="slow">Are we defined by the clothes we wear, or by the clothes we refuse to put in the closet? Confess your laundry chair sins below.</prosody></speak>",
+"voice_configurations": {
+"language": "en-US",
+"voice_type": "en-US-Journey-D",
+"speed": 1.0,
+"pitch": -1.0
+}
+}
+
+{
+"ssml_content": "<speak><prosody rate="fast">Washing clothes is science, drying them is an art, but folding them is a relentless, unending <emphasis level="strong">punishment</emphasis> from the universe.</prosody> The clean clothes sit in a pile on that one specific chair in your bedroom. The laundry chair. Days pass. The pile watches you sleep. It judges your procrastination. <break time="1s"/> You start living out of the basket, digging through the fabric mountain every morning like an urban archaeologist. <break time="2s"/> <prosody rate="slow">Are we defined by the clothes we wear, or by the clothes we refuse to put in the closet? Confess your laundry chair sins below.</prosody></speak>",
+"voice_configurations": {
+"language": "en-US",
+"voice_type": "en-US-Journey-D",
+"speed": 1.0,
+"pitch": -1.0
+}
+}
+
+{
+"ssml_content": "<speak><prosody rate="fast">There is no physical sensation more universally disappointing than a sneeze that decides to simply <emphasis level="strong">give up</emphasis> right at the finish line.</prosody> Your breath hitches. Your eyes close. The dramatic facial contortion begins. The crescendo is building, you are ready to violently expel air like a human dragon. <break time="1s"/> And then... nothing. It vanishes into the abyss. You are left there, mouth slightly open, looking completely ridiculous and profoundly unfulfilled. <break time="2s"/> <prosody rate="slow">Where do the lost sneezes go? Do they just wander the corridors of our sinuses forever? Commiserate with me in the comments.</prosody></speak>",
+"voice_configurations": {
+"language": "en-US",
+"voice_type": "en-US-Journey-D",
+"speed": 1.0,
+"pitch": -1.0
+}
+}
