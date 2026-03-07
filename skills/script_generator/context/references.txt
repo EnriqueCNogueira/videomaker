@@ -1,0 +1,2 @@
+# references.txt — Roteiros de referência para contexto do agente
+# Adicione aqui exemplos de roteiros no estilo e tom desejados

@@ -1,0 +1,8 @@
+skills/secrets/.env
+skills/secrets/*.json
+videos/*/audio.mp3
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv/
