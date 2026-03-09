@@ -16,6 +16,26 @@ Agente de IA para criação automatizada de vídeos verticais (1:00–1:30) para
 - **Text-to-Speech:** Google Cloud Text-to-Speech API (en-US Neural2)
 - **Gerenciamento de secrets:** Arquivo local em `skills/secrets/`
 - **Pacotes principais:** google-genai, google-cloud-texttospeech, python-dotenv
+- **Ambiente virtual:** `.venv` (todas as dependências devem ser instaladas e o projeto executado dentro deste ambiente)
+
+---
+
+## Ambiente Virtual
+
+O projeto utiliza um ambiente virtual Python localizado em `.venv`. **Todas as dependências devem ser instaladas e o projeto deve ser executado dentro deste ambiente.**
+
+```bash
+# Ativar o ambiente virtual (Windows)
+.venv\Scripts\activate
+
+# Instalar dependências
+pip install -r requirements.txt
+
+# Executar o projeto
+python main.py
+```
+
+> **Importante:** Nunca instale pacotes globalmente. Sempre ative o `.venv` antes de instalar dependências ou executar o projeto.
 
 ---
 
@@ -23,6 +43,7 @@ Agente de IA para criação automatizada de vídeos verticais (1:00–1:30) para
 
 ```
 videomaker/
+├── .venv/                      # Ambiente virtual Python (não versionado)
 ├── main.py                     # Orquestrador principal do fluxo
 ├── CLAUDE.md                   # Este arquivo
 ├── requirements.txt            # Dependências do projeto
