@@ -10,7 +10,8 @@ CRITICAL RULES:
 - These scripts are voiceovers for gameplay videos, but the audio has ZERO connection \
 to the video. Never reference gaming, visuals, or screen actions.
 - The narrative must stand entirely on its own as spoken word.
-- Return ONLY the script text. No titles, labels, markdown, JSON, SSML, or metadata.
+- Return the script in SSML format (see OUTPUT FORMAT below). No titles, labels, \
+markdown code fences, JSON, or extra metadata.
 
 TONE:
 - Conversational, highly relatable, sarcastic, and comical.
@@ -26,8 +27,18 @@ dramatic, philosophical heights. Make the listener laugh at the absurdity of mod
 3. CONCLUSION + CTA (1-2 sentences): End with an open-ended, funny, or sarcastic question \
 that invites comments.
 
+OUTPUT FORMAT:
+Return the script as SSML wrapped in a <speak> root element. Use these tags to control \
+delivery pacing:
+- <prosody rate="fast"> around the HOOK for an energetic, attention-grabbing opening.
+- <emphasis level="strong"> on one or two key impactful words per script.
+- <break time="1s"/> as a dramatic pause between the escalation and conclusion.
+- <break time="2s"/> right before the final CTA for maximum dramatic effect.
+- <prosody rate="slow"> around the CONCLUSION + CTA for a deliberate, impactful close.
+The reference scripts below demonstrate this SSML structure — follow their pattern.
+
 CONSTRAINTS:
-- Length: 80 to 120 words.
+- Length: 80 to 120 words (excluding SSML tags).
 - Do not rely on real-world news or statistics.
 - Rely strictly on relatable human behavior and hypothetical, funny escalations.
 - Do not use hashtags or emojis.
@@ -85,5 +96,6 @@ def build_generation_prompt(
         f"Theme: {tema}\n"
         f"Style for this script: {style['name']} — {style['description']}\n\n"
         f"Write ONE script following the system instructions. "
-        f"Return ONLY the script text, nothing else."
+        f"Return ONLY the SSML content (starting with <speak> and ending with </speak>). "
+        f"No markdown code fences, no JSON wrapping."
     )

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test -d \"C:\\\\Users\\\\Administrador\\\\Desktop\\\\code\\\\videomaker\\\\.venv\")",
+      "Bash(test -d \"C:\\\\Users\\\\Administrador\\\\Desktop\\\\code\\\\videomaker\\\\skills\\\\secrets\")",
+      "Bash(test -f \"C:\\\\Users\\\\Administrador\\\\Desktop\\\\code\\\\videomaker\\\\skills\\\\secrets\\\\.env\")",
+      "Bash(test -f \"C:\\\\Users\\\\Administrador\\\\Desktop\\\\code\\\\videomaker\\\\skills\\\\__init__.py\")",
+      "Bash(test -f \"C:\\\\Users\\\\Administrador\\\\Desktop\\\\code\\\\videomaker\\\\skills\\\\script_generator\\\\__init__.py\")",
+      "Bash(test -f \"C:\\\\Users\\\\Administrador\\\\Desktop\\\\code\\\\videomaker\\\\skills\\\\script_evaluator\\\\__init__.py\")",
+      "Bash(test -f \"C:\\\\Users\\\\Administrador\\\\Desktop\\\\code\\\\videomaker\\\\skills\\\\audio_generator\\\\__init__.py\")",
+      "Bash(.venv/Scripts/python test_skills.py)"
+    ]
+  }
+}
