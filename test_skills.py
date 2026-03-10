@@ -94,6 +94,46 @@ def test_audio_generator(winner, output_dir):
     return audio_path
 
 
+def test_subtitle_generator(audio_path, winner, output_dir):
+    """Test subtitle_generator.generate() with the generated audio."""
+    print("\n" + "=" * 60)
+    print("TEST 4: subtitle_generator.generate()")
+    print("=" * 60)
+
+    from skills.subtitle_generator.transcriber import generate
+
+    srt_path = generate(audio_path, winner, output_dir)
+
+    # Validate output
+    assert isinstance(srt_path, str), f"Expected str path, got {type(srt_path)}"
+    assert os.path.exists(srt_path), f"SRT file not found: {srt_path}"
+
+    file_size = os.path.getsize(srt_path)
+    assert file_size > 0, "SRT file is empty (0 bytes)"
+
+    # Validate SRT format
+    with open(srt_path, "r", encoding="utf-8") as f:
+        srt_content = f.read()
+
+    assert re.search(r"^\d+$", srt_content, re.MULTILINE), "SRT has no sequence numbers"
+    assert re.search(r"\d{2}:\d{2}:\d{2},\d{3} --> \d{2}:\d{2}:\d{2},\d{3}", srt_content), \
+        "SRT has no valid timestamps"
+
+    entries = re.findall(r"^\d+$", srt_content, re.MULTILINE)
+
+    print(f"\n--- Subtitles Generated ---")
+    print(f"Path: {srt_path}")
+    print(f"Size: {file_size / 1024:.1f} KB")
+    print(f"Entries: {len(entries)} subtitle segments")
+    print(f"\nFirst 5 entries:")
+    blocks = srt_content.strip().split("\n\n")
+    for block in blocks[:5]:
+        print(f"  {block}")
+
+    print(f"\n[PASS] subtitle_generator created a valid SRT file.")
+    return srt_path
+
+
 if __name__ == "__main__":
     import datetime
 
@@ -105,9 +145,10 @@ if __name__ == "__main__":
     try:
         scripts = test_generator()
         winner = test_evaluator(scripts)
-        audio_path = test_audio_generator(winner, output_dir)  # passa o diretório
+        audio_path = test_audio_generator(winner, output_dir)
+        srt_path = test_subtitle_generator(audio_path, winner, output_dir)
         print("\n" + "=" * 60)
-        print(f"ALL TESTS PASSED — áudio salvo em: {audio_path}")
+        print(f"ALL TESTS PASSED — output em: {output_dir}")
         print("=" * 60)
     except Exception as e:
         print(f"\n[FAIL] {e}", file=sys.stderr)

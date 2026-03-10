@@ -1,6 +1,7 @@
 skills/secrets/.env
 skills/secrets/*.json
 videos/*/audio.mp3
+videos/*/subtitles.srt
 __pycache__/
 *.pyc
 *.pyo
