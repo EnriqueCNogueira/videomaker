@@ -4,7 +4,7 @@
 
 Agente de IA para criação automatizada de vídeos verticais (1:00–1:30) para TikTok e YouTube Shorts. O projeto é modular, baseado em ferramentas (skills) independentes orquestradas por um fluxo principal.
 
-**Fase atual: Geração de Áudio** (roteiro + avaliação + TTS)
+**Fase atual: Pipeline completo** (roteiro + avaliação + TTS + legendas + montagem)
 
 ---
 
@@ -14,8 +14,10 @@ Agente de IA para criação automatizada de vídeos verticais (1:00–1:30) para
 - **Agente de roteiro:** Google Gemini API (modelo gemini-2.5-flash)
 - **Agente avaliador:** Google Gemini API
 - **Text-to-Speech:** Google Cloud Text-to-Speech API (en-US Neural2)
+- **Speech-to-Text:** Google Cloud Speech-to-Text API (legendas)
+- **Montagem de vídeo:** FFmpeg (via subprocess — requer FFmpeg instalado no PATH)
 - **Gerenciamento de secrets:** Arquivo local em `skills/secrets/`
-- **Pacotes principais:** google-genai, google-cloud-texttospeech, python-dotenv
+- **Pacotes principais:** google-genai, google-cloud-texttospeech, google-cloud-speech, python-dotenv
 - **Ambiente virtual:** `.venv` (todas as dependências devem ser instaladas e o projeto executado dentro deste ambiente)
 
 ---
@@ -44,58 +46,82 @@ python main.py
 ```
 videomaker/
 ├── .venv/                      # Ambiente virtual Python (não versionado)
-├── main.py                     # Orquestrador principal do fluxo
+├── main.py                     # Orquestrador principal do fluxo (a implementar)
+├── test_skills.py              # Script de teste para todas as skills
 ├── CLAUDE.md                   # Este arquivo
 ├── requirements.txt            # Dependências do projeto
-├── .gitignore                  # Ignorar secrets, audios gerados, etc.
+├── .gitignore                  # Ignorar secrets, audios, vídeos, etc.
 ├── videos/                     # Pasta de saída — um subdiretório por vídeo
 │   ├── video1/
-│   │   └── audio.mp3           # Áudio gerado (saída desta fase)
+│   │   ├── video.mp4           # Vídeo de fundo (adicionado MANUALMENTE)
+│   │   ├── audio.mp3           # Áudio gerado (audio_generator)
+│   │   ├── subtitles.srt       # Legendas geradas (subtitle_generator)
+│   │   └── output.mp4          # Vídeo final (video_assembler)
 │   ├── video2/
 │   └── ...
 ├── skills/
 │   ├── secrets/
-│   │   ├── .env                # Chaves de API (GEMINI_API_KEY, GOOGLE_TTS_KEY, etc.)
+│   │   ├── .env                # Chaves de API (GEMINI_API_KEY, etc.)
 │   │   └── README.md           # Instruções para configurar as chaves
 │   ├── script_generator/
 │   │   ├── generator.py        # Agente Gemini que gera roteiros
-│   │   ├── prompts.py          # System prompt e templates do agente de roteiro
-│   │   └── context/
-│   │       └── references.txt  # Roteiros de referência para contexto do agente
+│   │   ├── prompts.py          # System prompt e templates
+│   │   └── context/            # Roteiros de referência (JSON com SSML)
 │   ├── script_evaluator/
-│   │   ├── evaluator.py        # Agente Gemini que avalia e refina o roteiro
+│   │   ├── evaluator.py        # Agente Gemini que avalia e seleciona roteiro
 │   │   └── prompts.py          # System prompt e critérios de avaliação
 │   ├── audio_generator/
 │   │   ├── tts.py              # Integração com Google Cloud TTS
 │   │   └── config.py           # Configurações de voz, velocidade, idioma
-│   ├── subtitle_generator/     # (fase futura)
-│   └── video_assembler/        # (fase futura)
+│   ├── subtitle_generator/
+│   │   ├── transcriber.py      # Geração de legendas SRT via Speech-to-Text
+│   │   └── config.py           # Configurações de STT e agrupamento
+│   └── video_assembler/
+│       ├── assembler.py        # Montagem final via FFmpeg
+│       └── config.py           # Configurações de codec e estilo de legenda
 ```
 
 ---
 
-## Fluxo da Fase Atual (Geração de Áudio)
+## Fluxo Atual
 
-O `main.py` orquestra o seguinte pipeline sequencial:
+O usuário cria manualmente uma pasta `videos/videoN/` (ex: video1, video2) e coloca um arquivo `video.mp4` dentro dela. O sistema detecta automaticamente a pasta videoX com o maior N e usa como diretório de saída.
+
+Pipeline sequencial:
 
 ```
-1. GERAÇÃO DE ROTEIROS (script_generator)
-   ├── Carrega contexto de referência (references.txt)
-   ├── Gera roteiro #1 → salva
-   ├── Gera roteiro #2 → salva
-   └── Gera roteiro #3 → salva
+0. DETECÇÃO DE PASTA
+   ├── Escaneia videos/ por pastas videoN (regex ^video(\d+)$)
+   ├── Seleciona a de maior N
+   └── Valida presença de video.mp4 (aviso se ausente)
 
-2. AVALIAÇÃO E REFINAMENTO (script_evaluator)
+1. GERAÇÃO DE ROTEIROS (script_generator)
+   ├── Carrega contexto de referência (JSONs em context/)
+   ├── Gera roteiro #1, #2, #3 (chamadas separadas à API)
+   └── Retorna lista de 3 dicts {ssml_content, voice_configurations}
+
+2. AVALIAÇÃO (script_evaluator)
    ├── Recebe os 3 roteiros
-   ├── Avalia qual é o melhor (critérios: gancho, ritmo, CTA, clareza)
-   ├── Aplica correções ortográficas e melhorias
-   └── Retorna o roteiro final (string)
+   ├── Avalia e seleciona o melhor
+   └── Retorna o dict do roteiro vencedor (inalterado)
 
 3. GERAÇÃO DE ÁUDIO (audio_generator)
-   ├── Recebe o roteiro final
-   ├── Envia para Google Cloud TTS
-   ├── Salva o arquivo audio.mp3 em videos/videoN/
-   └── Retorna o caminho do arquivo gerado
+   ├── Recebe o roteiro vencedor + output_dir
+   ├── Envia SSML para Google Cloud TTS
+   └── Salva audio.mp3 em videos/videoN/
+
+4. GERAÇÃO DE LEGENDAS (subtitle_generator)
+   ├── Recebe audio_path + roteiro + output_dir
+   ├── Transcreve via Google Cloud Speech-to-Text
+   ├── Agrupa palavras em segmentos de legenda
+   └── Salva subtitles.srt em videos/videoN/
+
+5. MONTAGEM DO VÍDEO (video_assembler)
+   ├── Recebe video_dir (pasta com video.mp4, audio.mp3, subtitles.srt)
+   ├── Obtém duração do áudio via ffprobe
+   ├── Combina vídeo + áudio + legendas burned-in com FFmpeg
+   ├── Corta pela duração do áudio
+   └── Salva output.mp4 em videos/videoN/
 ```
 
 ---
@@ -160,6 +186,44 @@ O `main.py` orquestra o seguinte pipeline sequencial:
   - Salva o áudio como `audio.mp3` dentro de `videos/videoN/` (onde N é o próximo número disponível)
 - **Saída:** Caminho do arquivo .mp3 gerado
 
+### 4. subtitle_generator (Geração de Legendas)
+
+**Arquivo principal:** `skills/subtitle_generator/transcriber.py`
+
+- **API:** Google Cloud Speech-to-Text
+- **Configurações (em config.py):**
+  - Idioma: en-US (corresponde ao idioma do TTS)
+  - Modelo STT: latest_long
+  - Palavras por legenda: 2–6
+  - Limite de pausa para quebra: 0.4s
+- **Comportamento:**
+  - Recebe audio_path, script dict e output_dir
+  - Transcreve o áudio com timestamps por palavra (word-level)
+  - Agrupa palavras em segmentos curtos (adequados para vídeo vertical)
+  - Formata como SRT padrão e salva em videos/videoN/subtitles.srt
+- **Saída:** Caminho do arquivo .srt gerado
+
+### 5. video_assembler (Montagem Final)
+
+**Arquivo principal:** `skills/video_assembler/assembler.py`
+
+- **Ferramenta:** FFmpeg (via subprocess, sem pacote Python adicional)
+- **Pré-requisito:** FFmpeg instalado e no PATH do sistema
+- **Configurações (em config.py):**
+  - Codec vídeo: libx264, preset medium, CRF 23
+  - Codec áudio: AAC, bitrate 192k
+  - Estilo de legenda: fonte Arial, tamanho 20, branco com contorno preto
+  - Alinhamento: bottom-center, MarginV 60
+- **Comportamento:**
+  - Recebe video_dir (caminho da pasta videoN)
+  - Valida presença de video.mp4, audio.mp3, subtitles.srt
+  - Obtém duração do áudio via ffprobe
+  - Executa FFmpeg com subtitles filter (burn-in) e force_style
+  - Substitui áudio original do vídeo pela narração (audio.mp3)
+  - Corta output pela duração do áudio (-t)
+  - Salva output.mp4 na mesma pasta
+- **Saída:** Caminho absoluto do output.mp4
+
 ---
 
 ## Gerenciamento de Secrets
@@ -178,27 +242,32 @@ O `main.py` orquestra o seguinte pipeline sequencial:
   skills/secrets/.env
   skills/secrets/*.json
   videos/*/audio.mp3
+  videos/*/subtitles.srt
+  videos/*/video.mp4
+  videos/*/output.mp4
+  videos/*/*.mp4
   ```
 
 ---
 
 ## main.py — Orquestrador
 
-O `main.py` é o ponto de entrada. Ele deve:
+O `main.py` é o ponto de entrada (a ser implementado). Ele deve:
 
 1. Carregar variáveis de ambiente via dotenv
-2. Solicitar ao usuário o tema/briefing do vídeo (input ou argumento CLI)
-3. Chamar `script_generator.generate(tema)` → retorna lista de 3 roteiros
-4. Chamar `script_evaluator.evaluate(roteiros)` → retorna roteiro final
-5. Criar a pasta `videos/videoN/` (N = próximo número sequencial)
-6. Chamar `audio_generator.generate(roteiro_final, output_path)` → salva audio.mp3
-7. Imprimir no terminal: roteiro final utilizado e caminho do áudio gerado
+2. Aceitar tema/briefing via argumento CLI (`--tema`) ou input interativo
+3. Detectar a pasta `videos/videoN/` de maior N (NÃO cria pastas — o usuário cria manualmente)
+4. Validar a presença de video.mp4 (aviso, não erro)
+5. Chamar `script_generator.generate(tema)` → retorna lista de 3 dicts
+6. Chamar `script_evaluator.evaluate(roteiros)` → retorna dict vencedor
+7. Chamar `audio_generator.generate(winner, output_dir)` → salva audio.mp3
+8. Chamar `subtitle_generator.generate(audio_path, winner, output_dir)` → salva subtitles.srt
+9. Chamar `video_assembler.assemble(output_dir)` → salva output.mp4
+10. Imprimir resumo: roteiro final, caminhos dos arquivos gerados
 
 **Exemplo de execução:**
 ```bash
-python main.py
-# ou
-python main.py --tema "5 hábitos que mudaram minha vida"
+python main.py --tema "morning coffee routines"
 ```
 
 ---
@@ -214,24 +283,24 @@ python main.py --tema "5 hábitos que mudaram minha vida"
 
 ---
 
-## Fases Futuras (não implementar agora)
+## Próxima Fase
 
-Estas skills serão desenvolvidas depois:
-
-- **subtitle_generator:** Transcrever o roteiro em formato de legenda sincronizada (.srt ou .ass) com o áudio
-- **video_assembler:** Unir vídeo de fundo (adicionado manualmente em `videos/videoN/`) + áudio + legenda para gerar o vídeo final exportado pronto para upload
+- **main.py orquestrador:** Implementar o ponto de entrada CLI com argparse
+- **Upload automático:** Upload direto para TikTok/YouTube
+- **Interface gráfica:** UI para gerenciar o pipeline
 
 ---
 
-## Resumo do Escopo Atual
+## Resumo do Escopo
 
-| O que fazer agora | O que NÃO fazer agora |
+| Completo | Próxima fase |
 |---|---|
-| script_generator completo | subtitle_generator |
-| script_evaluator completo | video_assembler |
-| audio_generator completo | Upload automático |
-| main.py orquestrando o fluxo | Interface gráfica |
-| Estrutura de pastas | Edição de vídeo |
+| script_generator | main.py orquestrador |
+| script_evaluator | Upload automático |
+| audio_generator | Interface gráfica |
+| subtitle_generator | |
+| video_assembler | |
+| Detecção automática de pasta videoX | |
 | Gerenciamento de secrets | |
 
-**Resultado esperado desta fase:** Ao executar `python main.py`, o sistema gera 3 roteiros, avalia, escolhe o melhor, gera o áudio via TTS e salva o arquivo `audio.mp3` na pasta correspondente em `videos/`.
+**Resultado esperado:** Ao executar `python test_skills.py`, o sistema detecta a pasta videoN mais recente, gera 3 roteiros, avalia, escolhe o melhor, gera o áudio via TTS, gera legendas SRT, monta o vídeo final com legendas burned-in, e salva tudo na pasta videoN correspondente. Cada pasta videoN contém: `video.mp4` (manual) + `audio.mp3` (gerado) + `subtitles.srt` (gerado) + `output.mp4` (vídeo final).
